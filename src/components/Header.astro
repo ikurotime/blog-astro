@@ -5,7 +5,7 @@ import { SITE_TITLE } from '../consts'
 
 <header>
   <nav>
-    <h2><a href='/'>{SITE_TITLE}</a></h2>
+    <a href='/'><h2 class='title'>{SITE_TITLE}</h2></a>
     <!-- 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
@@ -75,9 +75,10 @@ import { SITE_TITLE } from '../consts'
   header {
     margin: 0;
     padding: 0 1em;
-    background: white;
+    background: var(--white);
     box-shadow: 0 2px 8px rgba(var(--black), 5%);
   }
+
   h2 {
     margin: 0;
     font-size: 1em;
@@ -105,6 +106,18 @@ import { SITE_TITLE } from '../consts'
   .social-links,
   .social-links a {
     display: flex;
+  }
+  @media (prefers-color-scheme: dark) {
+    header {
+      color: var(--icon-accent);
+      background: #171717;
+    }
+    .title {
+      color: var(--white);
+    }
+    .social-links > a:hover {
+      color: var(--icon-accent-dark);
+    }
   }
   @media (max-width: 720px) {
     .social-links {
