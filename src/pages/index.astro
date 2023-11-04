@@ -1,0 +1,161 @@
+---
+import BaseHead from '../components/BaseHead.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+import { getCollection } from 'astro:content'
+import FormattedDate from '../components/FormattedDate.astro'
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+)
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      .container {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+      }
+      aside {
+        flex: 1;
+        padding: 3em 3em 3em 0px;
+        max-width: 450px;
+      }
+      aside img {
+        min-width: 300px;
+        max-width: 400px;
+      }
+      main {
+        width: 960px;
+      }
+      ul {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 2rem;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      ul li {
+        width: calc(50% - 1rem);
+      }
+      ul li * {
+        text-decoration: none;
+        transition: 0.2s ease;
+      }
+      ul li:first-child a {
+        display: flex;
+        flex-direction: column-reverse;
+        text-align: left;
+      }
+      ul li:first-child {
+        width: 90%;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      ul li:first-child img {
+        width: 90%;
+      }
+      ul li:first-child .title {
+        font-size: 2.369rem;
+      }
+      ul li img {
+        margin-bottom: 0.5rem;
+        border-radius: 12px;
+      }
+      ul li a {
+        display: flex;
+        gap: 20px;
+      }
+      .title {
+        margin: 0;
+        color: rgb(var(--black));
+        line-height: 1;
+      }
+      .date {
+        margin: 0;
+        color: rgb(var(--gray));
+      }
+      ul li a:hover h4,
+      ul li a:hover .date {
+        color: rgb(var(--accent));
+      }
+      ul a:hover img {
+        box-shadow: var(--box-shadow);
+      }
+      @media (max-width: 1024px) {
+        ul {
+          gap: 0.5em;
+        }
+        ul li {
+          width: 100%;
+          text-align: center;
+        }
+        ul li:first-child {
+          margin-bottom: 0;
+        }
+        ul li:first-child .title {
+          font-size: 1.563em;
+        }
+        .container {
+          display: block;
+        }
+        aside {
+          flex: 1;
+          padding: 3em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <div class='container'>
+      <main>
+        <section>
+          <ul>
+            {
+              posts.map((post) => (
+                <li>
+                  <a href={`/blog/${post.slug}/`}>
+                    <img
+                      width={148}
+                      height={360}
+                      src={post.data.heroImage}
+                      alt=''
+                    />
+                    <div>
+                      <h4 class='title'>{post.data.title}</h4>
+                      <p class='date'>
+                        <FormattedDate date={post.data.pubDate} />
+                      </p>
+                    </div>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </main>
+      <aside>
+        <h4 class='title'>Last Video</h4>
+        <a
+          href='https://www.youtube.com/watch?v=j1mBww6RT74'
+          target='_blank'
+          rel='noreferrer'
+        >
+          <img
+            src='https://i3.ytimg.com/vi/j1mBww6RT74/maxresdefault.jpg'
+            alt='Last youtube video'
+          />
+        </a>
+      </aside>
+    </div>
+    <Footer />
+  </body>
+</html>
